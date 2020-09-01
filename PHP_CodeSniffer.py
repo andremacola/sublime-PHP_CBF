@@ -55,7 +55,6 @@ class Pref:
             self.settings.add_on_change(key, pref.load)
 
     def get_setting(self, key):
-        project_settings = sublime.active_window().active_view().settings()
         if key in self.project_settings:
             return self.project_settings.get(key)
         else:
