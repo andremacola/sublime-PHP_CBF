@@ -2,6 +2,9 @@
      // Run PHPCS when a buffer is saved.
     "run_on_save": false,
 
+     // Run PHPCBF when a buffer is saved.
+    "fix_on_save": false,
+
     // Path to PHP.
     "php_path": "",
 

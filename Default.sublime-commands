@@ -8,17 +8,11 @@
         "command": "phpcbf"
     },
     {
-        "caption": "Preferences: PHP_CodeSniffer Settings – Default",
-        "command": "open_file", "args":
+        "caption": "PHP_CodeSniffer: Settings",
+        "command": "edit_settings", "args":
         {
-            "file": "${packages}/PHP_CodeSniffer/PHP_CodeSniffer.sublime-settings"
+            "base_file": "${packages}/PHP_CodeSniffer/PHP_CodeSniffer.sublime-settings",
+            "default": "${packages}/User/PHP_CodeSniffer.sublime-settings",
         }
     },
-    {
-        "caption": "Preferences: PHP_CodeSniffer Settings – User",
-        "command": "open_file", "args":
-        {
-            "file": "${packages}/User/PHP_CodeSniffer.sublime-settings"
-        }
-    }
 ]
