@@ -5,6 +5,12 @@
      // Run PHPCBF when a buffer is saved.
     "fix_on_save": false,
 
+     // Reveal Console panel on check
+    "reveal_panel_on_check": true,
+
+     // Reveal Console panel on fix
+    "reveal_panel_on_fix": true,
+
     // Path to PHP.
     "php_path": "",
 

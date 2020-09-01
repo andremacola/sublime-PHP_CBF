@@ -98,7 +98,7 @@ class PHP_CodeSniffer:
     self.file_view = window.active_view()
     self.view_type = 'phpcs'
 
-    if data == '':
+    if len(data) == 0:
       self.file_view.erase_regions('errors')
       self.file_view.erase_regions('warnings')
       window.run_command("hide_panel", {"panel": "output." + RESULT_VIEW_NAME})
@@ -106,7 +106,7 @@ class PHP_CodeSniffer:
       return
 
     self.show_results_view(window, data)
-    self.set_status_msg('');
+    self.set_status_msg('PHPCS: Check panel errors');
 
     # Add gutter markers for each error.
     lines        = data.decode('utf-8').split("\n")
@@ -222,7 +222,10 @@ class PHP_CodeSniffer:
         data = data.decode('utf-8').replace('\r', '')
 
     outputView = self.init_results_view(window)
-    window.run_command("show_panel", {"panel": "output." + RESULT_VIEW_NAME})
+
+    if (settings.get('auto_reveal_panel', True) == True and data):
+      window.run_command("show_panel", {"panel": "output." + RESULT_VIEW_NAME})
+
     outputView.set_read_only(False)
 
     self.output_view.run_command('set_view_content', {'data':data})
@@ -368,12 +371,12 @@ class PhpcsEventListener(sublime_plugin.EventListener):
   def on_post_save(self, view):
     if view.file_name().endswith('.php') == True:
       # RUN PHPCBF ON SAVE
-      if settings.get('run_on_save', False) == False:
+      if settings.get('fix_on_save', False) == True:
         sublime.active_window().run_command("phpcbf")
         return
 
       # RUN PHPCS ON SAVE
-      if settings.get('run_on_save', False) == False:
+      if settings.get('run_on_save', False) == True:
         sublime.active_window().run_command("phpcs")
 
   def on_selection_modified(self, view):
