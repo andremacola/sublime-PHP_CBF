@@ -366,13 +366,15 @@ class PhpcsEventListener(sublime_plugin.EventListener):
       view.erase_regions('warnings')
 
   def on_post_save(self, view):
-    if settings.get('run_on_save', False) == False:
-      return
+    if view.file_name().endswith('.php') == True:
+      # RUN PHPCBF ON SAVE
+      if settings.get('run_on_save', False) == False:
+        sublime.active_window().run_command("phpcbf")
+        return
 
-    if view.file_name().endswith('.inc') == False:
-      return
-
-    sublime.active_window().run_command("phpcs")
+      # RUN PHPCS ON SAVE
+      if settings.get('run_on_save', False) == False:
+        sublime.active_window().run_command("phpcs")
 
   def on_selection_modified(self, view):
     if view.name() != RESULT_VIEW_NAME:
