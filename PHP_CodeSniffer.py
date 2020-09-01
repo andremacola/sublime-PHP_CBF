@@ -71,6 +71,10 @@ class PHP_CodeSniffer:
     # After the active view contents are changed set the scroll position back to previous position.
     self.file_view.set_viewport_position(scrollPos, False)
 
+    # Fix on save
+    if (settings.get('fix_on_save', False) == True and self.view_type == 'phpcbf'):
+      window.active_view().run_command('save')
+
 
   def run_diff(self, window, origContent, fixed_content):
     try:
@@ -264,8 +268,9 @@ class PHP_CodeSniffer:
   def line_clicked(self):
     if self.view_type == 'phpcs':
         self.handle_phpcs_line_click()
-    else:
-        self.handle_phpcbf_line_click()
+    # else:
+    #     # see comment at the method declaration
+    #     self.handle_phpcbf_line_click()
 
 
   def handle_phpcs_line_click(self):
@@ -286,29 +291,34 @@ class PHP_CodeSniffer:
     lineNum = match.group(1)
     self.go_to_line(lineNum)
 
+  #
+  # This method has a bug. The course changes its position in the code view as soon as phpcbf runs
+  # The cursor must change line only on click at the panel and not on every run
+  # Temporary disabled
+  #
+  # def handle_phpcbf_line_click(self):
+  #   print(self.output_view.name())
+  #   pnt    = self.output_view.sel()[0]
+  #   region = self.output_view.line(pnt)
+  #   line   = self.output_view.substr(region)
+  #   (row, col) = self.output_view.rowcol(pnt.begin())
 
-  def handle_phpcbf_line_click(self):
-    pnt    = self.output_view.sel()[0]
-    region = self.output_view.line(pnt)
-    line   = self.output_view.substr(region)
-    (row, col) = self.output_view.rowcol(pnt.begin())
+  #   offset = 0
+  #   found  = False
+  #   while not found and row > 0:
+  #     text_point = self.output_view.text_point(row, 0)
+  #     line = self.output_view.substr(self.output_view.line(text_point))
+  #     if line.startswith('@@'):
+  #       match = re.match(r'^@@ -\d+,\d+ \+(\d+),.*', line)
+  #       if match:
+  #         lineNum = int(match.group(1)) + offset - 1
+  #         self.go_to_line(lineNum)
 
-    offset = 0
-    found  = False
-    while not found and row > 0:
-      text_point = self.output_view.text_point(row, 0)
-      line = self.output_view.substr(self.output_view.line(text_point))
-      if line.startswith('@@'):
-        match = re.match(r'^@@ -\d+,\d+ \+(\d+),.*', line)
-        if match:
-          lineNum = int(match.group(1)) + offset - 1
-          self.go_to_line(lineNum)
+  #       break
+  #     elif not line.startswith('-'):
+  #       offset = offset + 1
 
-        break
-      elif not line.startswith('-'):
-        offset = offset + 1
-
-      row = row - 1
+  #     row = row - 1
 
 
   def go_to_line(self, lineNum):
