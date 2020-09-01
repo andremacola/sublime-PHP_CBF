@@ -7,11 +7,85 @@ import string
 import difflib
 import threading
 
+"""
+Set some constants
+"""
 SETTINGS_FILE    = 'PHP_CodeSniffer.sublime-settings'
 RESULT_VIEW_NAME = 'phpcs_result_view'
 
-settings = sublime.load_settings(SETTINGS_FILE)
+ST_VERSION = 2
+if sublime.version() == '' or int(sublime.version()) > 3000:
+    ST_VERSION = sublime.version()
 
+"""
+GET/SET SETTINGS CLASS FROM SUBLIME-PHPCS
+THANKS AND CREDITS TO: Ben Selby (github: @BENMATSELBY)
+"""
+class Pref:
+    keys = [
+        "run_on_save",
+        "fix_on_save",
+        "auto_reveal_panel",
+        "php_path",
+        "phpcs_path",
+        "phpcbf_path",
+        "phpcs_standard",
+        "additional_args",
+        "error_scope",
+        "warning_scope"
+    ]
+
+    def load(self):
+        self.settings = sublime.load_settings(SETTINGS_FILE)
+
+        if sublime.active_window() is not None and sublime.active_window().active_view() is not None:
+            project_settings = sublime.active_window().active_view().settings()
+            if project_settings.has("PHP_CodeSniffer"):
+                project_settings.clear_on_change('PHP_CodeSniffer')
+                self.project_settings = project_settings.get('PHP_CodeSniffer')
+                project_settings.add_on_change('PHP_CodeSniffer', pref.load)
+            else:
+                self.project_settings = {}
+        else:
+            self.project_settings = {}
+
+        for key in self.keys:
+            self.settings.clear_on_change(key)
+            setattr(self, key, self.get_setting(key))
+            self.settings.add_on_change(key, pref.load)
+
+    def get_setting(self, key):
+        project_settings = sublime.active_window().active_view().settings()
+        if key in self.project_settings:
+            return self.project_settings.get(key)
+        else:
+            return self.settings.get(key)
+
+    def set_setting(self, key, value):
+        if key in self.project_settings:
+            self.project_settings[key] = value
+        else:
+            self.settings.set(key, value)
+
+"""
+CHECK SUBLIME VERSION
+LOAD SETTINGS
+"""
+pref = Pref()
+settings = pref
+
+if ST_VERSION == 2:
+  pref.load()
+  settings = pref
+
+def plugin_loaded():
+    pref.load()
+    settings = pref
+
+"""
+MAIN PHP_CODESNIFFER CLASS
+HANDLE THE REQUESTS FROM SUBLIME
+"""
 class PHP_CodeSniffer:
   # Type of the view, phpcs or phpcbf.
   file_view   = None
@@ -72,7 +146,7 @@ class PHP_CodeSniffer:
     self.file_view.set_viewport_position(scrollPos, False)
 
     # Fix on save
-    if (settings.get('fix_on_save', False) == True and self.view_type == 'phpcbf'):
+    if (settings.get_setting('fix_on_save') == True and self.view_type == 'phpcbf'):
       window.active_view().run_command('save')
 
 
@@ -144,24 +218,24 @@ class PHP_CodeSniffer:
 
     window.active_view().erase_regions('errors')
     window.active_view().erase_regions('warnings')
-    window.active_view().add_regions('errors', err_regions, settings.get('error_scope'), 'Packages/PHP_CodeSniffer/icons/error.png', sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE)
-    window.active_view().add_regions('warnings', warn_regions, settings.get('warning_scope'), 'Packages/PHP_CodeSniffer/icons/warning.png', sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE)
+    window.active_view().add_regions('errors', err_regions, settings.get_setting('error_scope'), 'Packages/PHP_CodeSniffer/icons/error.png', sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE)
+    window.active_view().add_regions('warnings', warn_regions, settings.get_setting('warning_scope'), 'Packages/PHP_CodeSniffer/icons/warning.png', sublime.DRAW_STIPPLED_UNDERLINE | sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE)
 
   def get_command_args(self, cmd_type):
     args = []
 
-    if settings.get('php_path'):
-      args.append(settings.get('php_path'))
+    if settings.get_setting('php_path'):
+      args.append(settings.get_setting('php_path'))
     elif os.name == 'nt':
       args.append('php')
 
     if cmd_type == 'phpcs':
-      args.append(settings.get('phpcs_path', 'phpcs'))
+      args.append(settings.get_setting('phpcs_path'))
       args.append('--report=' + sublime.packages_path() + '/PHP_CodeSniffer/STPluginReport.php')
     else:
-      args.append(settings.get('phpcbf_path', 'phpcbf'))
+      args.append(settings.get_setting('phpcbf_path'))
 
-    standard_setting = settings.get('phpcs_standard')
+    standard_setting = settings.get_setting('phpcs_standard')
     standard = ''
 
     if type(standard_setting) is dict:
@@ -176,13 +250,13 @@ class PHP_CodeSniffer:
     else:
       standard = standard_setting
 
-    if settings.get('phpcs_standard'):
+    if settings.get_setting('phpcs_standard'):
       args.append('--standard=' + standard)
 
     args.append('-')
 
-    if settings.get('additional_args'):
-      args += settings.get('additional_args')
+    if settings.get_setting('additional_args'):
+      args += settings.get_setting('additional_args')
 
     return args
 
@@ -227,7 +301,7 @@ class PHP_CodeSniffer:
 
     outputView = self.init_results_view(window)
 
-    if (settings.get('auto_reveal_panel', True) == True and data):
+    if (settings.get_setting('auto_reveal_panel') == True and data):
       window.run_command("show_panel", {"panel": "output." + RESULT_VIEW_NAME})
 
     outputView.set_read_only(False)
@@ -348,6 +422,10 @@ class PHP_CodeSniffer:
         )
         break
 
+"""
+START SUBLIME TEXT
+COMMANDS AND EVENTS
+"""
 class set_view_content(sublime_plugin.TextCommand):
     def run(self, edit, data, replace=False):
       if replace == True:
@@ -381,12 +459,12 @@ class PhpcsEventListener(sublime_plugin.EventListener):
   def on_post_save(self, view):
     if view.file_name().endswith('.php') == True:
       # RUN PHPCBF ON SAVE
-      if settings.get('fix_on_save', False) == True:
+      if settings.get_setting('fix_on_save') == True:
         sublime.active_window().run_command("phpcbf")
         return
 
       # RUN PHPCS ON SAVE
-      if settings.get('run_on_save', False) == True:
+      if settings.get_setting('run_on_save') == True:
         sublime.active_window().run_command("phpcs")
 
   def on_selection_modified(self, view):
@@ -404,7 +482,3 @@ class PhpcsEventListener(sublime_plugin.EventListener):
   def on_hover(self, view, point, hover_zone):
         if hover_zone == sublime.HOVER_GUTTER:
             phpcs.showPopup(view, sublime, point)
-
-def plugin_loaded():
-    global settings
-    settings = sublime.load_settings(SETTINGS_FILE)
