@@ -5,20 +5,17 @@
      // Run PHPCBF when a buffer is saved.
     "fix_on_save": false,
 
-     // Reveal Console panel on check
-    "reveal_panel_on_check": true,
-
-     // Reveal Console panel on fix
-    "reveal_panel_on_fix": true,
+     // Reveal console panel on check/fix
+    "auto_reveal_panel": false,
 
     // Path to PHP.
-    "php_path": "",
+    "php_path": "php",
 
     // Path to the PHPCS script.
-    "phpcs_path": "/usr/local/bin/phpcs",
+    "phpcs_path": "phpcs",
 
     // Path to the PHPCBF script.
-    "phpcbf_path": "/usr/local/bin/phpcbf",
+    "phpcbf_path": "phpcbf",
 
     // PHPCS Standard to Use. Can be a string or a dict (folder => standard).
     "phpcs_standard": "Squiz",
