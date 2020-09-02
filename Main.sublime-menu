@@ -4,8 +4,8 @@
         "children":
         [
             {
-                "caption": "PHP_CodeSniffer",
-                "id": "phpcs",
+                "caption": "PHP_CBF",
+                "id": "phpcbf",
                 "children":
                 [
                     {
@@ -26,11 +26,11 @@
                 "children":
                 [
                     {
-                        "caption": "PHP_CodeSniffer",
+                        "caption": "PHP_CBF",
                         "command": "edit_settings",
                         "args": {
-                            "base_file": "${packages}/PHP_CodeSniffer/PHP_CodeSniffer.sublime-settings",
-                            "default": "${packages}/User/PHP_CodeSniffer.sublime-settings",
+                            "base_file": "${packages}/PHP_CBF/PHP_CBF.sublime-settings",
+                            "default": "${packages}/User/PHP_CBF.sublime-settings",
                         }
                     }
                 ]

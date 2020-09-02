@@ -1,10 +1,10 @@
 [
     {
-        "caption": "PHP_CodeSniffer: Check File",
-        "command": "phpcs"
+        "caption": "PHP_CBF: Fix File",
+        "command": "phpcbf"
     },
     {
-        "caption": "PHP_CodeSniffer: Settings",
+        "caption": "PHP_CBF: Settings",
         "command": "edit_settings", "args":
         {
             "base_file": "${packages}/PHP_CodeSniffer/PHP_CodeSniffer.sublime-settings",

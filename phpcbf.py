@@ -8,7 +8,7 @@ import threading
 """
 Set some constants
 """
-SETTINGS_FILE = 'PHP_CodeSniffer.sublime-settings'
+SETTINGS_FILE = 'PHP_CBF.sublime-settings'
 
 """
 GET/SET SETTINGS CLASS FROM SUBLIME-PHPCS
@@ -20,7 +20,7 @@ class Preferences:
 
     def get(self, key):
         if sublime.active_window() is not None and sublime.active_window().active_view() is not None:
-          conf = sublime.active_window().active_view().settings().get('PHP_CodeSniffer')
+          conf = sublime.active_window().active_view().settings().get('PHP_CBF')
           if conf is not None and key in conf:
             return conf.get(key)
 

@@ -1,36 +1,29 @@
-PHP_CodeSniffer Sublime Text 2/3 Plugin
+PHP_CBF for Sublime Text 3/4
 ========================================
-PHP_CodeSniffer Sublime Text Plugin allows running of [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) inside Sublime Text.
 
-Running the PHPCS command displays the coding standard violations report and displays gutter markers for the lines that have code violations.
 
-<a href="http://squizlabs.github.io/sublime-PHP_CodeSniffer/sublime-phpcs.png" target="_blank"><img src="http://squizlabs.github.io/sublime-PHP_CodeSniffer/sublime-phpcs-sm.png" alt="PHPCS screenshot" /></a>
-
-Running the PHPCBF command attempts to fix the coding standard violations and displays a diff of the changes that were made.
-
-<a href="http://squizlabs.github.io/sublime-PHP_CodeSniffer/sublime-phpcbf.png" target="_blank"><img src="http://squizlabs.github.io/sublime-PHP_CodeSniffer/sublime-phpcbf-sm.png" alt="PHPCS Fixer screenshot" /></a>
 
 
 
 Installation
 --------------
-- Install [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer).
-- Clone the PHP_CodeSniffer Sublime Text Plugin in to ST2/ST3 Packages directory.
+- Install [PHP_CBF](https://github.com/andremacola/PHP_CBF).
+- Clone the PHP_CBF Sublime Text Plugin in to ST3/ST4 Packages directory.
 ```
-git clone https://github.com/squizlabs/sublime-PHP_CodeSniffer PHP_CodeSniffer
+git clone https://github.com/andremacola/PHP_CBF PHP_CBF
 ```
 - Packages directory locations:
 ```
-Mac: /Users/{user}/Library/Application Support/Sublime Text 2/Packages
-Windows: C:\Users\{user}\AppData\Roaming\Sublime Text 2\Packages
-Linux: ~/.config/sublime-text-2/Packages
+Mac: /Users/{user}/Library/Application Support/Sublime Text 3/Packages
+Windows: C:\Users\{user}\AppData\Roaming\Sublime Text 3\Packages
+Linux: ~/.config/sublime-text-3/Packages
 ```
 
 Configuration
 --------------
-Configuration files can be opened via Preferences > Package Settings > PHP_CodeSniffer.
+Configuration files can be opened via Preferences > Package Settings > PHP_CBF.
 
-Make sure the php_path, phpcs_path and phpcbf_path paths are correct. E.g.
+Make sure the php_path and phpcbf_path paths are correct. E.g.
 ```
 "phpcs_path": "/usr/local/bin/phpcs",
 "phpcbf_path": "/usr/local/bin/phpcbf",
@@ -55,26 +48,14 @@ This settings can be the name of a single standard or a list of folder/project n
 
 Array containing additional arguments to pass to the PHPCS/PHPCBF scripts.
 
-**error_scope & warning_scope**
+**fix_on_save**
 
-These settings define the colors used for the error and warning gutter markers.
-```
-// Gutter error icon color.
-"error_scope": "comment.block",
-
-// Gutter warning icon color.
-"warning_scope": "function"
-```
-
-**run_on_save**
-
-If set to *true* then buffer will be checked on each save.
+If set to *true* then buffer will be checked and fixed on each save.
 
 
 Usage
 --------
-There are two shortcuts that can be used for Sublime PHP_CodeSniffer plugin:
-- **ALT + S**: Runs PHPCS command for the open buffer.
+There are one shortcut that can be used for Sublime PHP_CBF plugin:
 - **ALT + SHIFT + S**: Runs PHPCBF command for the open buffer.
 
-These commands are also available in Tools > PHP_CodeSniffer menu.
+These commands are also available in Tools > PHP_CBF menu.
