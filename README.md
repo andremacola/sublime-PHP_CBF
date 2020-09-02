@@ -1,7 +1,7 @@
 PHP_CBF for Sublime Text 3/4
 ========================================
 
-This is a lightweight ST Package to fix your php files with [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) command `phpcbf`. It is based on the original [PHP_CodeSniffer](https://github.com/andremacola/PHP_CodeSniffer) package without the `phpcs`.
+This is a lightweight ST Package to fix your php files with [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) command `phpcbf`. It is based on the original [PHP_CodeSniffer](https://github.com/andremacola/sublime-PHP_CodeSniffer) package without the `phpcs`.
 
 The advantage of this plugin is that it acts directly in the Sublime Text buffer, avoiding file reloading thus being faster.
 
@@ -9,7 +9,14 @@ For linting your code, please use [Sublimelinter-phpcs](https://packagecontrol.i
 
 Installation
 --------------
-- Install [PHP_CBF](https://github.com/andremacola/PHP_CBF).
+
+## Install via Package Control
+
+Not available yet
+
+## Cloning the repository
+
+- Install [PHP_CBF](https://github.com/andremacola/Sublime-PHP_CBF).
 - Clone the PHP_CBF Sublime Text Plugin in to ST3/ST4 Packages directory.
 ```
 git clone https://github.com/andremacola/PHP_CBF PHP_CBF
