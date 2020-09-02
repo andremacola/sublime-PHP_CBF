@@ -10,11 +10,11 @@ For linting your code, please use [Sublimelinter-phpcs](https://packagecontrol.i
 Installation
 --------------
 
-## Install via Package Control
+### Install via Package Control
 
 Not available yet
 
-## Cloning the repository
+### Cloning the repository
 
 - Install [PHP_CBF](https://github.com/andremacola/Sublime-PHP_CBF).
 - Clone the PHP_CBF Sublime Text Plugin in to ST3/ST4 Packages directory.
