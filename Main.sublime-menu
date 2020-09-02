@@ -4,7 +4,7 @@
         "children":
         [
             {
-                "caption": "PHP_CBF",
+                "caption": "PHP CBF",
                 "id": "phpcbf",
                 "children":
                 [
@@ -26,10 +26,10 @@
                 "children":
                 [
                     {
-                        "caption": "PHP_CBF",
+                        "caption": "PHP CBF",
                         "command": "edit_settings",
                         "args": {
-                            "base_file": "${packages}/PHP_CBF/PHP_CBF.sublime-settings",
+                            "base_file": "${packages}/PHP CBF/PHP_CBF.sublime-settings",
                             "default": "${packages}/User/PHP_CBF.sublime-settings",
                         }
                     }
