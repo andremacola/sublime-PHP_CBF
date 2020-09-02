@@ -9,10 +9,6 @@
                 "children":
                 [
                     {
-                        "caption": "Check File",
-                        "command": "phpcs"
-                    },
-                    {
                         "caption": "Fix File",
                         "command": "phpcbf"
                     }

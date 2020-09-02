@@ -4,10 +4,6 @@
         "command": "phpcs"
     },
     {
-        "caption": "PHP_CodeSniffer: Fix File",
-        "command": "phpcbf"
-    },
-    {
         "caption": "PHP_CodeSniffer: Settings",
         "command": "edit_settings", "args":
         {

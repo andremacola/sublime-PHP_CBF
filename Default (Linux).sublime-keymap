@@ -1,9 +1,5 @@
 [
     {
-        "keys": ["alt+s"],
-        "command": "phpcs"
-    },
-    {
         "keys": ["alt+shift+s"],
         "command": "phpcbf"
     }

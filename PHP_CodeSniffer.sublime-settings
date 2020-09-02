@@ -1,18 +1,9 @@
 {
-     // Run PHPCS when a buffer is saved.
-    "run_on_save": false,
-
      // Run PHPCBF when a buffer is saved.
     "fix_on_save": false,
 
-     // Reveal console panel on check/fix
-    "auto_reveal_panel": false,
-
     // Path to PHP.
     "php_path": "php",
-
-    // Path to the PHPCS script.
-    "phpcs_path": "phpcs",
 
     // Path to the PHPCBF script.
     "phpcbf_path": "phpcbf",
@@ -22,10 +13,4 @@
 
     // Additional arguments to pass to PHPCS/PHPCBF.
     "additional_args": [],
-
-    // Gutter error icon colour.
-    "error_scope": "comment.block",
-
-    // Gutter warning icon colour.
-    "warning_scope": "function"
 }
