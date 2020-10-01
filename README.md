@@ -46,7 +46,7 @@ This settings can be the name of a single standard or a list of folder/project n
 "phpcs_standard": "Squiz"
 ```
 ```json
-// subline-project
+// sublime-project
 "settings": {
     "PHP_CBF": {
         "fix_on_save": true,
