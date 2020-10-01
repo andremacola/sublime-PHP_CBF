@@ -41,14 +41,17 @@ Make sure the php_path and phpcbf_path paths are correct. E.g.
 **phpcs_standard**
 
 This settings can be the name of a single standard or a list of folder/project names and the standard to be used for each project. E.g.
-```
+
+```json
 "phpcs_standard": "Squiz"
 ```
-```
-"phpcs_standard": {
-    "PHP_CodeSniffer": "PHPCS",
-    "php-sikuli": "PSR1",
-    "Sublime-PHP_CodeSniffer": "PEAR"
+```json
+// subline-project
+"settings": {
+    "PHP_CBF": {
+        "fix_on_save": true,
+        "phpcs_standard": "~/my_project/phpcs.xml"
+    }
 }
 ```
 
@@ -59,7 +62,6 @@ Array containing additional arguments to pass to the PHPCS/PHPCBF scripts.
 **fix_on_save**
 
 If set to *true* then buffer will be checked and fixed on each save.
-
 
 Usage
 --------
