@@ -10,9 +10,11 @@ For linting your code, please use [Sublimelinter-phpcs](https://packagecontrol.i
 Installation
 --------------
 
-### Install via Package Control
+### Package Control
 
-Not available yet
+This package is available through [Package Control](https://packagecontrol.io/).
+
+`Package Control ‣ Install Package ‣ PHP CBF`
 
 ### Cloning the repository
 
