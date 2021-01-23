@@ -80,7 +80,7 @@ class PHP_CBF:
 
     self.file_view.run_command('set_view_content', {'data':fixed_content, 'replace':True})
 
-    # Fix on save
+    # Fix on save (maybe loop issue)
     if settings.get('fix_on_save') == True:
       window.active_view().run_command('save')
 
@@ -193,11 +193,15 @@ class set_view_content(sublime_plugin.TextCommand):
 
 class PhpcbfCommand(sublime_plugin.WindowCommand):
   def run(self):
-    phpcbf.run(self.window, 'Runnings PHPCS Fixer  ')
+    phpcbf.run(self.window, 'Running PHPCS Fixer  ')
 
 class PhpcbfEventListener(sublime_plugin.EventListener):
   def on_post_save(self, view):
-    if view.file_name().endswith('.php') == True:
-      if settings.get('fix_on_save') == True:
+    self.filename = os.path.basename(view.file_name())
+    if (
+        self.filename.endswith('.php') == True and
+        self.filename.startswith('.') == False and
+        settings.get('fix_on_save') == True
+      ):
         sublime.active_window().run_command("phpcbf")
         return

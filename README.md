@@ -71,3 +71,7 @@ There are one shortcut that can be used for Sublime PHP_CBF plugin:
 - **ALT + SHIFT + S**: Runs PHPCBF command for the open buffer.
 
 These commands are also available in Tools > PHP_CBF menu.
+
+Known Issues
+--------
+If your project is configured to work with `tabs` but for some reason ST is setting to indent with `spaces` (see the conf at bottom right corner), PHPCBF maybe start a looping save process if `fix_on_save` is enabled.
