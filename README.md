@@ -74,4 +74,4 @@ These commands are also available in Tools > PHP_CBF menu.
 
 Known Issues
 --------
-If your project is configured to work with `tabs` but for some reason ST is setting to indent with `spaces` (see the conf at bottom right corner), PHPCBF maybe start a looping save process if `fix_on_save` is enabled.
+If your project is configured to work with `tabs`, but for some reason ST is configured to indent with `spaces` (see conf in the bottom right corner), PHPCBF maybe start a loop saving process if `fix_on_save` is enabled.
