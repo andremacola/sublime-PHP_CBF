@@ -105,16 +105,20 @@ class PHP_CBF:
 
   def get_command_args(self, cmd_type):
     args = []
+    project_folder = sublime.active_window().folders()[0]
+    php_path = settings.get('php_path')
+    phpcbf_path = settings.get('phpcbf_path')
+    standard_setting = settings.get('phpcs_standard')
+    standard = ''
 
-    if settings.get('php_path'):
-      args.append(settings.get('php_path'))
+    if php_path:
+      args.append(php_path)
     elif os.name == 'nt':
       args.append('php')
 
-    args.append(settings.get('phpcbf_path'))
-
-    standard_setting = settings.get('phpcs_standard')
-    standard = ''
+    if phpcbf_path:
+      phpcbf_path = phpcbf_path.replace('${folder}', project_folder)
+      args.append(phpcbf_path)
 
     if type(standard_setting) is dict:
       for folder in self.window.folders():
@@ -129,6 +133,7 @@ class PHP_CBF:
       standard = standard_setting
 
     if settings.get('phpcs_standard'):
+      standard = standard.replace('${folder}', project_folder)
       args.append('--standard=' + standard)
 
     args.append('-')

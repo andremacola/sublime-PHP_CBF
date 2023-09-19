@@ -52,7 +52,8 @@ This settings can be the name of a single standard or a list of folder/project n
 "settings": {
     "PHP_CBF": {
         "fix_on_save": true,
-        "phpcs_standard": "~/my_project/phpcs.xml"
+        "phpcbf_path": "${folder}/vendor/bin/phpcbf",
+        "phpcs_standard": "${folder}/phpcs.xml"
     }
 }
 ```
