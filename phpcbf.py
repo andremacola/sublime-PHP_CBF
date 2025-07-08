@@ -63,27 +63,28 @@ class PHP_CBF:
     t = threading.Thread(target=self.run_command, args=(self.get_command_args(cmd), cmd, content, window, window.active_view().file_name()))
     t.start()
 
-  def process_phpcbf_results(self, fixed_content, window, content):
-    # Remove the gutter markers.
+  def process_phpcbf_results(self, fixed_content, stderr_str, exit_code, window, content):
+    if stderr_str and exit_code not in [0, 1]:
+      print("--- PHP CBF Error Output ---")
+      print(stderr_str.strip())
+      self.set_status_msg('PHP CBF: Error, check console for details.')
+      return
+
     self.window    = window
     self.file_view = window.active_view()
 
-    # Get the diff between content and the fixed content.
     difftxt = self.run_diff(window, content, fixed_content)
     self.processed = True
 
     if not difftxt:
       return
 
-    # Show diff text in the results panel.
     self.set_status_msg('');
-
     self.file_view.run_command('set_view_content', {'data':fixed_content, 'replace':True})
 
-    # Fix on save (maybe loop issue)
     if settings.get('fix_on_save') == True:
-      window.active_view().run_command('save')
-
+      self.file_view.settings().set('phpcbf_is_saving', True)
+      self.file_view.run_command('save')
 
   def run_diff(self, window, origContent, fixed_content):
     try:
@@ -152,15 +153,17 @@ class PHP_CBF:
     proc = subprocess.Popen(args, shell=shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 
     if file_path:
-      phpcs_content = 'phpcs_input_file: ' + file_path + "\n" + content;
+      phpcs_content = 'phpcs_input_file: ' + file_path + "\n" + content
     else:
-      phpcs_content = content;
+      phpcs_content = content
 
     if proc.stdout:
-      data = proc.communicate(phpcs_content.encode('utf-8'))[0]
 
-      data = data.decode('utf-8')
-      sublime.set_timeout(lambda: self.process_phpcbf_results(data, window, content), 0)
+      stdout_data, stderr_data = proc.communicate(phpcs_content.encode('utf-8'))
+      stdout_str = stdout_data.decode('utf-8')
+      stderr_str = stderr_data.decode('utf-8')
+      exit_code = proc.returncode
+      sublime.set_timeout(lambda: self.process_phpcbf_results(stdout_str, stderr_str, exit_code, window, content), 0)
 
   def loading_msg(self, msg):
     sublime.set_timeout(lambda: self.show_loading_msg(msg), 0)
@@ -202,6 +205,13 @@ class PhpcbfCommand(sublime_plugin.WindowCommand):
 
 class PhpcbfEventListener(sublime_plugin.EventListener):
   def on_post_save(self, view):
+    if view.settings().get('phpcbf_is_saving', False):
+      view.settings().erase('phpcbf_is_saving')
+      return
+
+    if not view.file_name():
+      return
+
     self.filename = os.path.basename(view.file_name())
     if (
         self.filename.endswith('.php') == True and
