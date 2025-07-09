@@ -18,15 +18,15 @@ This package is available through [Package Control](https://packagecontrol.io/).
 
 ### Cloning the repository
 
-- Clone the PHP_CBF Sublime Text Plugin in to ST3/ST4 Packages directory.
+- Clone the PHP_CBF Sublime Text Plugin in to ST4 Packages directory.
 ```
 git clone https://github.com/andremacola/PHP_CBF PHP_CBF
 ```
 - Packages directory locations:
 ```
-Mac: /Users/{user}/Library/Application Support/Sublime Text 3/Packages
-Windows: C:\Users\{user}\AppData\Roaming\Sublime Text 3\Packages
-Linux: ~/.config/sublime-text-3/Packages
+Mac: /Users/{user}/Library/Application Support/Sublime Text/Packages
+Windows: C:\Users\{user}\AppData\Roaming\Sublime Text\Packages
+Linux: ~/.config/sublime-text/Packages
 ```
 
 Configuration
