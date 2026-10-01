@@ -268,8 +268,9 @@ class PHPCBFProcessor:
                 lambda: self._process_results(result, window, content), 0
             )
         except Exception as e:
+            msg = str(e)
             sublime.set_timeout(
-                lambda: self._handle_error(f"Error running PHP CBF: {str(e)}"), 0
+                lambda msg=msg: self._handle_error(f"Error running PHP CBF: {msg}"), 0
             )
 
     def _execute_command(self, args: List[str], content: str,
